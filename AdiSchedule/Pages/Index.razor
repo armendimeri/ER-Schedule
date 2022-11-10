@@ -1,0 +1,81 @@
+﻿@page "/"
+@using Radzen
+@using Radzen.Blazor
+@using AdiSchedule
+
+<PageTitle>Orari Adit</PageTitle>
+<h1>Orari Adit</h1>
+
+
+
+<RadzenScheduler style="height: 768px;" TItem="Appointment" Data=@GetSchedule() StartProperty="Start" EndProperty="End"
+        TextProperty="Text" SelectedIndex="2">
+        <RadzenDayView />
+        <RadzenWeekView />
+        <RadzenMonthView />
+    </RadzenScheduler>
+
+@code {
+
+
+
+    
+    Dictionary<DateTime, string> events = new Dictionary<DateTime, string>();
+
+    private List<Appointment> GetSchedule()
+    {
+        List<Appointment> list = new List<Appointment>();
+
+        DateTime startDate = new DateTime(2022, 08, 15);
+
+        for (int i = 0;  i < 100; i++)
+        {
+            list.Add(new Appointment { Start = startDate.AddDays(1), End = startDate.AddDays(1), Text = "E LIRE" });
+            list.Add(new Appointment { Start = startDate.AddDays(2), End = startDate.AddDays(2), Text = "MENGJES" });
+            list.Add(new Appointment { Start = startDate.AddDays(3), End = startDate.AddDays(4), Text = "NATEN" });
+            startDate = startDate.AddDays(4);
+        }
+
+        return list;
+    }
+
+    IList<Appointment> appointments = new List<Appointment>
+    {
+        new Appointment { Start = DateTime.Today.AddDays(-2), End = DateTime.Today.AddDays(-2), Text = "E LIRE" },
+        new Appointment { Start = DateTime.Today.AddDays(-11), End = DateTime.Today.AddDays(-10), Text = "MENGJES" },
+        new Appointment { Start = DateTime.Today.AddDays(-10), End = DateTime.Today.AddDays(-8), Text = "NATEN" },
+    };
+
+    void OnSlotRender(SchedulerSlotRenderEventArgs args) 
+    {
+        if (args is null)
+        {
+            throw new ArgumentNullException(nameof(args));
+        }
+
+        Appointment data = new Appointment();
+        // Highlight today in month view
+        if (args.View.Text == "Month" && args.Start.Date == DateTime.Today)
+        {
+            args.Attributes["style"] = "background: rgba(255,220,40,.2);";
+        }
+
+        // Highlight working hours (9-18)
+        if ((args.View.Text == "Week" || args.View.Text == "Day") && args.Start.Hour > 8 && args.Start.Hour < 19)
+        {
+            args.Attributes["style"] = "background: rgba(255,220,40,.2);";
+        }
+    }
+
+  
+
+    void OnAppointmentRender(SchedulerAppointmentRenderEventArgs<Appointment> args)
+    {
+        // Never call StateHasChanged in AppointmentRender - would lead to infinite loop
+
+        if (args.Data.Text == "Birthday")
+        {
+            args.Attributes["style"] = "background: red";
+        }
+    }
+}

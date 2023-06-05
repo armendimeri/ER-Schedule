@@ -2,24 +2,46 @@
 @using Radzen
 @using Radzen.Blazor
 @using AdiSchedule
-
+@using Syncfusion.Blazor.Schedule
 <PageTitle>Orari Adit</PageTitle>
-<h1>Orari Adit</h1>
-
-
-
-<RadzenScheduler style="height: 768px;" TItem="Appointment" Data=@GetSchedule() StartProperty="Start" EndProperty="End"
+<h1>Dr. Adrijan</h1>
+<div>
+<Syncfusion.Blazor.Schedule.SfSchedule FirstDayOfWeek="1" Height="90vh" EnableAutoRowHeight=true TValue="Appointment">
+    <Syncfusion.Blazor.Schedule.ScheduleEventSettings AllowEditing=false AllowDeleting=false AllowAdding=false  DataSource="MySchedule"></Syncfusion.Blazor.Schedule.ScheduleEventSettings>
+    <ScheduleViews>
+        <ScheduleView Option="View.Month" MaxEventsPerRow="2"></ScheduleView>
+           
+    </ScheduleViews>
+</Syncfusion.Blazor.Schedule.SfSchedule>
+</div>
+@*<RadzenScheduler style="height: 768px;" TItem="Appointment" Data=@GetSchedule() StartProperty="Start" EndProperty="End"
         TextProperty="Text" SelectedIndex="2">
         <RadzenDayView />
         <RadzenWeekView />
         <RadzenMonthView />
-    </RadzenScheduler>
+    </RadzenScheduler>*@
+<style>.e-schedule .e-month-view .e-appointment{
+height:50px !important}
 
+        .e-schedule .e-month-view .e-appointment .e-appointment-details .e-subject
+        {
+        font-size:12px !important;
+            
+        }
+
+        .e-schedule .e-month-view .e-appointment .e-appointment-details {
+            display:block !important;
+            padding: 5px 0px 0px 5px !important;
+        }
+        </style>
 @code {
+    protected override Task OnInitializedAsync()
+    {
+        MySchedule = GetSchedule();
+        return base.OnInitializedAsync();
+    }
+    private List<Appointment> MySchedule { get; set; }
 
-
-
-    
     Dictionary<DateTime, string> events = new Dictionary<DateTime, string>();
 
     private List<Appointment> GetSchedule()
@@ -30,9 +52,32 @@
 
         for (int i = 0;  i < 100; i++)
         {
-            list.Add(new Appointment { Start = startDate.AddDays(1), End = startDate.AddDays(1), Text = "E LIRE" });
-            list.Add(new Appointment { Start = startDate.AddDays(2), End = startDate.AddDays(2), Text = "MENGJES" });
-            list.Add(new Appointment { Start = startDate.AddDays(3), End = startDate.AddDays(4), Text = "NATEN" });
+
+            var dayOne = startDate.AddDays(1);
+
+            var dayTwo = startDate.AddDays(2);
+
+            var dayThree = startDate.AddDays(3);
+
+            var dayFour = startDate.AddDays(4);
+
+            var startTime1 = new DateTime(dayOne.Year, dayOne.Month, dayOne.Day, 7, 0, 0);
+            var endTime1 = new DateTime(dayOne.Year, dayOne.Month, dayOne.Day, 19, 0, 0);
+            list.Add(new Appointment { Start = dayOne, End = dayOne, Text = "LIRE", Subject = "LIRË", StartTime = startTime1, EndTime = endTime1 });
+
+            
+            var startTime2 = new DateTime(dayTwo.Year, dayTwo.Month, dayTwo.Day, 7, 0, 0);
+            var endTime2 = new DateTime(dayTwo.Year, dayTwo.Month, dayTwo.Day, 19, 0, 0);
+            list.Add(new Appointment { Start = dayTwo, End = dayTwo, Text = "MENGJES", Subject = "SABA", StartTime = startTime2, EndTime = endTime2 });
+
+           
+            var startTime3 = new DateTime(dayThree.Year, dayThree.Month, dayThree.Day, 19, 0, 0);
+
+            
+
+            var endTime3 = new DateTime(dayFour.Year, dayFour.Month, dayFour.Day, 7, 0, 0);
+            list.Add(new Appointment { Start = dayThree, End = dayThree, Text = "NATEN", Subject = "NATËN", StartTime = startTime3, EndTime = endTime3 });
+
             startDate = startDate.AddDays(4);
         }
 

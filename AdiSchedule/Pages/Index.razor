@@ -4,15 +4,23 @@
 @using AdiSchedule
 @using Syncfusion.Blazor.Schedule
 <PageTitle>Orari Adit</PageTitle>
-<h1>Dr. Adrijan</h1>
+
 <div>
-<Syncfusion.Blazor.Schedule.SfSchedule FirstDayOfWeek="1" Height="90vh" EnableAutoRowHeight=true TValue="Appointment">
+<Syncfusion.Blazor.Schedule.SfSchedule FirstDayOfWeek="1" Height="91vh" EnableAutoRowHeight=true TValue="Appointment">
     <Syncfusion.Blazor.Schedule.ScheduleEventSettings AllowEditing=false AllowDeleting=false AllowAdding=false  DataSource="MySchedule"></Syncfusion.Blazor.Schedule.ScheduleEventSettings>
     <ScheduleViews>
         <ScheduleView Option="View.Month" MaxEventsPerRow="2"></ScheduleView>
            
     </ScheduleViews>
 </Syncfusion.Blazor.Schedule.SfSchedule>
+</div>
+
+<div class="d-inline-flex justify-content-between w-100 align-items-center">
+    <h2>Dr. Adrijan I.</h2>
+    <p class="fs-6 align-items-center">
+        <a target="_blank" href="https://impos.mk/">IMPOS</a>
+    </p>
+   
 </div>
 @*<RadzenScheduler style="height: 768px;" TItem="Appointment" Data=@GetSchedule() StartProperty="Start" EndProperty="End"
         TextProperty="Text" SelectedIndex="2">
@@ -50,7 +58,7 @@ height:50px !important}
 
         DateTime startDate = new DateTime(2022, 08, 15);
 
-        for (int i = 0;  i < 100; i++)
+        for (int i = 0;  i < 200; i++)
         {
 
             var dayOne = startDate.AddDays(1);
